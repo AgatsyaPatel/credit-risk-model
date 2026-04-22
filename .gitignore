@@ -1,9 +1,15 @@
+# Raw data folder — too large for GitHub
 data/
-*.csv
+
+# Compressed files
 *.gz
 *.zip
+
+# Python clutter
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# Environment files
 .env
 venv/
