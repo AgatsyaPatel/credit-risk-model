@@ -1,4 +1,4 @@
-# Raw data folder — too large for GitHub
+outputs/*.csvgit rm --cached outputs/01_loaded_data.csv# Raw data folder — too large for GitHub
 data/
 
 # Compressed files
