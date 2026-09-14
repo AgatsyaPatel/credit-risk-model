@@ -1,6 +1,6 @@
 ﻿# Credit Risk Prediction System 🏦
 
-A machine learning system that predicts loan default risk using 2.26 million real LendingClub loans. Built as part of MSIS-415 Advanced Coding for Analytics at UMass Boston.
+A machine learning system that predicts loan default risk using 2.26 million real LendingClub loans.
 
 ## What This Project Does
 A borrower walks into a bank and applies for a loan. This system analyzes their financial profile and predicts — in milliseconds — whether they are likely to default. The output is a risk category (Low, Medium, or High) with a recommended bank action (Approve, Review, or Decline).
