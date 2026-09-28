@@ -13,32 +13,32 @@ The score ranks applicants by relative risk. It is not a literal probability of 
 ## Results
 | Model | Accuracy | AUC-ROC | Recall (Defaulters) |
 |---|---|---|---|
-| Logistic Regression | 80.1% | 0.704 | 7% |
+| Logistic Regression | 80.1% | 0.703 | 7% |
 | Random Forest | 63.9% | 0.712 | 68% |
 | XGBoost | 65.2% | 0.724 | 68% |
 
 **Risk Segmentation (policy: approve safest 50%, review next 30%, decline riskiest 20%):**
 - Low Risk → 9.8% default rate → Recommend Approve
 - Medium Risk → 23.1% default rate → Recommend Review
-- High Risk → 40.6% default rate → Recommend Decline (captures ~40% of all defaulters)
+- High Risk → 40.7% default rate → Recommend Decline (captures ~40% of all defaulters)
 
 The cutoffs are set from the training data, not the test data. Where to draw them is a business decision, not a model result.
 
-**Top features:** loan grade was the strongest predictor by far (~74% of the model's importance), followed by term and interest rate. Grade is LendingClub's own risk rating, so I tested whether the model was mostly copying it.
+**Top features:** loan grade was the strongest predictor by far (~75% of the model's importance), followed by term and interest rate. Grade is LendingClub's own risk rating, so I tested whether the model was mostly copying it.
 
 ## Test: Model Without Grade
 I retrained the same XGBoost model without `grade` and `int_rate` and compared it on the same test data, using the same 50/30/20 risk policy.
 
 | | With grade | Without grade |
 |---|---|---|
-| AUC-ROC | 0.724 | 0.707 |
-| Low Risk default rate | 9.8% | 10.7% |
-| Medium Risk default rate | 23.1% | 22.6% |
-| High Risk default rate | 40.6% | 39.2% |
+| AUC-ROC | 0.724 | 0.711 |
+| Low Risk default rate | 9.8% | 10.4% |
+| Medium Risk default rate | 23.1% | 22.8% |
+| High Risk default rate | 40.7% | 39.7% |
 
-AUC dropped only 0.017 and the risk bands held up, so the borrower's own details carry most of the signal. Grade adds a little, likely because LendingClub built it from credit report data not in this dataset.
+AUC dropped only 0.013 and the risk bands held up, so the borrower's own details carry most of the signal. Grade adds a little, likely because LendingClub built it from credit report data not in this dataset.
 
-Without grade, `term` jumped to ~63% importance. This showed me that gain-based feature importance tends to give most of the credit to one feature, so the 74% for grade overstated how much the model actually depends on it.
+Without grade, `term` jumped to ~57% importance. This showed me that gain-based feature importance tends to give most of the credit to one feature, so the 75% for grade overstated how much the model actually depends on it.
 
 ## Dataset
 - Source: LendingClub via Kaggle (2007–2018)
