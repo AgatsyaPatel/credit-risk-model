@@ -1,4 +1,4 @@
-# Credit Risk Prediction System 
+# Credit Risk Prediction System
 
 A machine learning system that predicts loan default risk using real LendingClub loan data (2007–2018).
 
@@ -24,7 +24,21 @@ The score ranks applicants by relative risk. It is not a literal probability of 
 
 The cutoffs are set from the training data, not the test data. Where to draw them is a business decision, not a model result.
 
-**Top features:** loan grade was the strongest predictor by far (~74% of the model's importance), followed by term and interest rate. Grade is LendingClub's own risk rating, so part of what the model learns is already built into the grade.
+**Top features:** loan grade was the strongest predictor by far (~74% of the model's importance), followed by term and interest rate. Grade is LendingClub's own risk rating, so I tested whether the model was mostly copying it.
+
+## Test: Model Without Grade
+I retrained the same XGBoost model without `grade` and `int_rate` and compared it on the same test data, using the same 50/30/20 risk policy.
+
+| | With grade | Without grade |
+|---|---|---|
+| AUC-ROC | 0.724 | 0.707 |
+| Low Risk default rate | 9.8% | 10.7% |
+| Medium Risk default rate | 23.1% | 22.6% |
+| High Risk default rate | 40.6% | 39.2% |
+
+AUC dropped only 0.017 and the risk bands held up, so the borrower's own details carry most of the signal. Grade adds a little, likely because LendingClub built it from credit report data not in this dataset.
+
+Without grade, `term` jumped to ~63% importance. This showed me that gain-based feature importance tends to give most of the credit to one feature, so the 74% for grade overstated how much the model actually depends on it.
 
 ## Dataset
 - Source: LendingClub via Kaggle (2007–2018)
@@ -81,7 +95,7 @@ After reviewing the first version, I found and fixed a few issues:
 - Grade and interest rate are inputs, so the model works as a check after pricing, not as a pricing tool.
 
 ## Future Improvements
-- Train a version without grade and interest rate, so the model can recommend a grade and rate from the applicant's own details (risk-based pricing).
+- Use the no-grade model to recommend a grade and interest rate from the applicant's own details (risk-based pricing). The test above shows it performs almost as well without grade.
 - Build a portfolio monitoring version for existing loans that uses payment behavior (late payments, recent FICO changes).
 - Test on later years after training on earlier ones, to see how the model holds up over time.
 
