@@ -1,4 +1,4 @@
-# Credit Risk Prediction System 🏦
+# Credit Risk Prediction System 
 
 A machine learning system that predicts loan default risk using real LendingClub loan data (2007–2018).
 
